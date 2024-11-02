@@ -97,7 +97,7 @@ main {
 .card img {
     width: auto;
     height: auto;
-    max-height: 150px; /* Max height for the image */
+    /* max-height: 150px; Max height for the image */
     border-radius: 10px; /* Rounded corners for images */
     margin: 10px; /* Add margin for spacing around the image */
 }
@@ -200,7 +200,7 @@ footer {
 
 /* Style for QR code popup */
 #qr-popup {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -215,16 +215,30 @@ footer {
 
 #qr-popup h3 {
     color: white; /* This ensures h3 text is white */
+    position:fixed;
 }
 
 #qr-code-content {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    border-width: 8px;
+    border-width: 0px;
     text-align: center;
+
 }
 
+.close-btn {
+    position: absolute; /* Make the button position absolute */
+    top: 10px; /* Distance from the top of the popup */
+    right: 10px; /* Distance from the right of the popup */
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
 
 
 

@@ -17,26 +17,6 @@
             color: #000;
         }
 
-        header.light-mode {
-            background-color: #f8f9fa;
-            color: #000;
-        }
-
-        footer.light-mode {
-            background-color: #f8f9fa;
-            color: #000;
-        }
-
-        .card.light-mode {
-            background-color: #ffffff;
-            color: #000000;
-        }
-
-        .close-btn.light-mode {
-            background-color: #000;
-            color: #fff;
-        }
-
         /* Dark Mode Styles */
         body.dark-mode {
             background-color: #222;
@@ -48,20 +28,59 @@
             color: white;
         }
 
-        footer.dark-mode {
-            background-color: #343a40;
-            color: white;
+        header.light-mode {
+            background-color: #f8f9fa;
+            color: #000000;
         }
 
+        h1.light-mode {
+            color: #000;
+            /* Light mode text color */
+        }
+
+        h1.dark-mode {
+            color: #fff;
+            /* Dark mode text color */
+        }
+
+        /* Default Light Mode Styles */
+        .card.light-mode {
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 1px 2px 5px 5px rgba(0, 0, 0, 0.2);
+            /* Light mode shadow */
+        }
+
+        /* Dark Mode Styles */
         .card.dark-mode {
             background-color: #333;
             color: #ffffff;
+            box-shadow: 1px 1px 10px 1px rgb(255, 255, 255);
+            /* Dark mode shadow */
+        }
+
+
+        .close-btn.light-mode {
+            background-color: #000;
+            color: #fff;
         }
 
         .close-btn.dark-mode {
             background-color: #ffffff;
             color: #000;
         }
+
+        footer.dark-mode {
+            background-color: #343a40;
+            color: white;
+        }
+
+        footer.light-mode {
+            background-color: #f8f9fa;
+            color: #000;
+        }
+
+
 
         /* Common Styles */
         header {
@@ -109,19 +128,22 @@
 
 <body class="light-mode">
     <header class="light-mode">
-        <h1>Hr Restaurant</h1>
+        <img src="light_mode.png" alt="Toggle Mode" id="modeIcon" class="ml-2" onclick="toggleMode()"
+            style="cursor: pointer; width: 30px; height: 32px;">
+        <h1 id="headerTitle" class="light-mode" style="margin: 10px;">Hr Restaurant</h1>
         <button class="btn btn-primary" onclick="openAdminPanel()">Admin</button>
-        <button class="btn btn-secondary ml-2" onclick="toggleMode()">Toggle Mode</button>
+        <!-- <button class="btn btn-secondary ml-2" onclick="toggleMode()">Toggle Mode</button> -->
     </header>
 
     <main class="container my-5">
         <section id="menu-category">
-            <h2 class="text-center">Menu Items</h2>
+            <h2 class="text-center">Menu List</h2>
             <div class="row" id="menu-container"></div>
         </section>
 
         <div class="text-center my-4">
-            <button class="btn btn-primary" style="width: 10%; height: 50%;" onclick="placeOrder()">Place Your Order</button>
+            <button class="btn btn-primary" style="width: 10%; height: 50%;" onclick="placeOrder()">Place Your
+                Order</button>
         </div>
     </main>
 
@@ -131,8 +153,9 @@
     </div>
 
     <div id="qr-popup" class="image-popup">
-        <button class="close-btn light-mode" onclick="closeQRCode()">Close</button>
-        <h3 style="color: #fff; margin-bottom: 220px; align-items: center; justify-items: center;">Your Order Detail</h3>
+        <button class="close-btn light-mode"style="position:left;;" onclick="closeQRCode()">Close</button>
+        <h3 style="color: #fff; margin-bottom: 220px; align-items: center; justify-items: center;">Your Order Detail
+        </h3>
         <div id="qr-code-content"></div>
     </div>
 
@@ -146,7 +169,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Admin Panel</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeAdminPanel()">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="closeAdminPanel()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -167,7 +191,8 @@
                         </div>
                         <div class="form-group">
                             <label for="itemImage">Image Upload</label>
-                            <input type="file" class="form-control-file" id="itemImage" accept="image/*" required onchange="previewImage()">
+                            <input type="file" class="form-control-file" id="itemImage" accept="image/*" required
+                                onchange="previewImage()">
                             <img id="imagePreview" style="display:none; max-height: 150px;" />
                         </div>
                         <button type="submit" class="btn btn-primary">Add Item</button>
@@ -187,11 +212,22 @@
     </div>
 
     <script>
-        // Dark/Light Mode Toggle Function
         function toggleMode() {
+            // Toggle dark and light modes
             const elements = document.querySelectorAll('body, header, footer, .card, .close-btn');
             elements.forEach(el => el.classList.toggle('dark-mode'));
             elements.forEach(el => el.classList.toggle('light-mode'));
+
+            // Update the icon
+            const modeIcon = document.getElementById('modeIcon');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            modeIcon.src = isDarkMode ? 'light.png' : 'night.png';
+
+            // Update header title color
+            const headerTitle = document.getElementById('headerTitle');
+            headerTitle.classList.toggle('dark-mode');
+            headerTitle.classList.toggle('light-mode');
+
         }
 
         const menuItems = [
@@ -230,7 +266,143 @@
 
         // Other JavaScript functions remain unchanged.
         // (Add other functions as defined in the original code)
+
+        // Image preview function
+        function previewImage() {
+            const file = document.getElementById('itemImage').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imagePreview = document.getElementById('imagePreview');
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Add item form submission handler
+        document.getElementById('addItemForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const title = document.getElementById('itemTitle').value;
+            const description = document.getElementById('itemDescription').value;
+            const price = parseFloat(document.getElementById('itemPrice').value);
+            const image = document.getElementById('imagePreview').src;
+
+            if (title && description && price && image) {
+                menuItems.push({ title, description, price, image });
+                document.getElementById('itemTitle').value = '';
+                document.getElementById('itemDescription').value = '';
+                document.getElementById('itemPrice').value = '';
+                document.getElementById('imagePreview').src = '';
+                generateMenuCards(); // Regenerate menu cards
+                closeAdminPanel(); // Close the modal
+            }
+        });
+
+        function updatePrice(index) {
+            const quantity = document.getElementById(`quantity-${index}`).value;
+            const item = menuItems[index];
+            const priceElement = document.getElementById(`price-${index}`);
+            priceElement.textContent = `₹${(item.price * quantity).toFixed(2)}`;
+        }
+
+        function addToCart(index, event) {
+            const quantity = parseInt(document.getElementById(`quantity-${index}`).value);
+            const item = menuItems[index];
+            const existingItem = userSelections.find(i => i.title === item.title);
+
+            if (existingItem) {
+                existingItem.quantity += quantity; // Increase quantity if item exists
+            } else {
+                userSelections.push({ title: item.title, price: item.price, quantity: quantity });
+            }
+
+            const button = event.target; // Get the button that was clicked
+            button.textContent = 'Done'; // Change button text to 'Done'
+            setTimeout(() => {
+                button.textContent = 'Add to list'; // Revert back to original text after 5 seconds
+            }, 5000);
+        }
+
+        function openAdminPanel() {
+            $('#adminModal').modal('show');
+            populateRemoveItemSelect();
+        }
+
+        function closeAdminPanel() {
+            $('#adminModal').modal('hide');
+        }
+
+        function populateRemoveItemSelect() {
+            const select = document.getElementById('removeItemSelect');
+            select.innerHTML = `<option value="">-- Select Item --</option>`;
+            menuItems.forEach((item, index) => {
+                select.innerHTML += `<option value="${index}">${item.title}</option>`;
+            });
+        }
+
+        function removeMenuItem() {
+            const select = document.getElementById('removeItemSelect');
+            const index = select.value;
+            if (index !== "") {
+                menuItems.splice(index, 1); // Remove the item from the array
+                generateMenuCards(); // Regenerate menu cards
+                populateRemoveItemSelect(); // Update remove select options
+            }
+        }
+
+        function placeOrder() {
+            let orderDetails = "Order Details:\n";
+            let totalPrice = 0;
+
+            userSelections.forEach(item => {
+                orderDetails += `${item.title} : ${item.quantity} *  ₹${item.price} = ₹${(item.quantity * item.price)}\n`;
+                totalPrice += item.quantity * item.price;
+            });
+
+            orderDetails += `Total Amount: ₹${totalPrice.toFixed(2)}`;
+
+            const qrCodePopup = document.getElementById('qr-popup');
+            const qrCodeContent = document.getElementById('qr-code-content');
+
+            qrCodeContent.innerHTML = '';
+
+            const qrData = encodeURIComponent(orderDetails);
+            const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?data=${qrData}&size=150x150`;
+
+            const img = document.createElement('img');
+            img.src = qrCodeURL;
+            img.alt = 'QR Code';
+
+            qrCodeContent.appendChild(img);
+            qrCodePopup.style.display = 'flex';
+        }
+
+        function closeQRCode() {
+            userSelections.length = 0; // Clear selections after closing QR code
+            document.getElementById('qr-popup').style.display = 'none'; // Hide the popup
+        }
+
+
+        function showPopup(imageSrc) {
+            const popup = document.getElementById('image-popup');
+            const popupImage = document.getElementById('popup-image');
+            popupImage.src = imageSrc;
+            popup.style.display = 'flex';
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('image-popup');
+            popup.style.display = 'none';
+        }
+
+        $(document).ready(function () {
+            generateMenuCards(); // Generate initial menu cards
+        });
     </script>
+
 </body>
 
 </html>
