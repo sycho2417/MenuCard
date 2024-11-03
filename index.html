@@ -282,7 +282,7 @@
         <img src="night.png" alt="Toggle Mode" id="modeIcon" class="ml-2" onclick="toggleMode()"
             style="cursor: pointer; width: 30px; height: 32px;">
         <h1 id="headerTitle" class="light-mode" style="margin: 10px;">Hr Restaurant</h1>
-        <button class="btn btn-primary" onclick="openAdminPanel()">Admin</button>
+        <button class="btn btn-primary" onclick="admin_password()">Admin</button>
     </header>
 
     <main class="container my-5">
@@ -319,6 +319,34 @@
     <footer class="light-mode">
         <p>&copy; 2024 HrPatil Restaurant. All Rights Reserved.</p>
     </footer>
+
+
+    <!-- Admin Authorization Modal -->
+    <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">Admin Authorization</h5>
+                    <button type="button" class="close" onclick="closeAuthPanel()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="authForm" onsubmit="checkPassword(event)">
+                        <div class="form-group">
+                            <label for="passwordInput">Enter Password:</label>
+                            <input type="password" class="form-control" id="passwordInput" required>
+                        </div>
+                        <div id="authAlert" style="color: red;"></div> <!-- Alert message container -->
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Admin Panel Modal -->
     <div class="modal" id="adminModal" tabindex="-1" role="dialog">
@@ -405,6 +433,59 @@
 
 
         }
+
+
+
+        const adminPassword = "admin123"; // Set your admin password here
+
+        // Function to open the authorization modal
+        function admin_password() {
+            // Clear the previous password entry and reset the alert message
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('authAlert').innerText = ''; // Clear alert message
+
+            $('#authModal').modal('show'); // Show the authorization modal
+        }
+
+        // Function to close the authorization modal
+        function closeAuthPanel() {
+            $('#authModal').modal('hide'); // Close the authorization modal
+        }
+
+        // Function to check the entered password
+        function checkPassword(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const enteredPassword = document.getElementById('passwordInput').value;
+            const authAlert = document.getElementById('authAlert');
+
+            if (enteredPassword === adminPassword) {
+                closeAuthPanel(); // Close the authorization modal
+                openAdminPanel(); // Call function to open admin panel
+            } else {
+                authAlert.innerText = "Incorrect password. Access denied."; // Display error message in the modal
+            }
+        }
+
+        function openAdminPanel() {
+            const enteredPassword = prompt("Enter the admin password:");
+
+            if (enteredPassword === adminPassword) {
+                // Password is correct, open the admin modal
+                $('#adminModal').modal('show'); // Use Bootstrap modal show method
+            } else {
+                // Password is incorrect, display an error message
+                alert("Incorrect password. Access denied.");
+            }
+        }
+
+        function closeAdminPanel() {
+            $('#adminModal').modal('hide'); // Use Bootstrap modal hide method
+        }
+
+
+
+
 
         const menuItems = [
             { title: "Vanilla Ice Cream", description: "Smooth vanilla ice cream.", price: 4, image: "ice_cream.jpg" },
